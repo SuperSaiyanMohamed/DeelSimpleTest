@@ -10,4 +10,4 @@ In order to run the test successfully You have to run the following commands as 
 - run ```npm run report``` This command is to generate reports using allure package.
 
 ## NOTE
-- [bold] Please add your own email and password in the data.user object in ./test/specs/createContract.js
+- **Please add your own email and password in the data.user object in ./test/specs/createContract.js**
