@@ -60,7 +60,9 @@ class CreateContractPage extends Page {
     }
 
     contractCreatedSuccessfully (){
-        this.status.waitForDisplayed({timeout: 10000});
+        browser.waitUntil( () => {
+            return this.status.getText() === 'WAITING FOR CLIENT SIGN';
+        } )
         expect(this.status).toExist();
     }
 
