@@ -4,13 +4,13 @@ const UserData = require('../testData/user.json');
 const ContractData = require('../testData/fixedContract.json');
 
 describe('Login and Create Contract', () => {
-    it('should login with valid credentials then create a fixed rate contract', () => {
-        LoginPage.open();
+    it('should login with valid credentials then create a fixed rate contract', async () => {
+        await LoginPage.open();
 
-        LoginPage.login(UserData.user);
-        browser.pause(3000);
-        CreateContract.open();
-        CreateContract.createFixedContract(ContractData.contract);
+        await LoginPage.login(UserData.user);
+        await browser.pause(3000);
+        await CreateContract.open();
+        await CreateContract.createFixedContract(ContractData.contract);
     });
 });
 

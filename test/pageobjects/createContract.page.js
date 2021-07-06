@@ -16,63 +16,63 @@ class CreateContractPage extends Page {
     get nxtBtn () { return $("button[class='button mt-7 w-100']") }
     get status () { return $("p.contract-layout-status.mb-4")}
 
-    setEffectiveDate () {
+    async setEffectiveDate () {
         const date = new Date();
         const yesterday = new Date(date.setDate(date.getDate() - 1));
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        $(`abbr[aria-label='${monthNames[yesterday.getMonth()]} ${yesterday.getDate()}, ${yesterday.getFullYear()}']`).click();
+        await (await $(`abbr[aria-label='${monthNames[yesterday.getMonth()]} ${yesterday.getDate()}, ${yesterday.getFullYear()}']`)).click();
     }
 
-    generalInfo (name, scope){
-        this.fixedContractBox.click();
-        this.contractName.setValue(name);
-        this.contractScope.setValue(scope);
-        this.selectEffectiveDates.click();
-        this.setEffectiveDate();
-        this.submitBtn.click();
+    async generalInfo (name, scope){
+        await (await this.fixedContractBox).click();
+        await (await this.contractName).setValue(name);
+        await (await this.contractScope).setValue(scope);
+        await (await this.selectEffectiveDates).click();
+        await this.setEffectiveDate();
+        await (await this.submitBtn).click();
     }
     
-    paymentDetails (rate, currency, perDate){
-        this.rate.setValue(rate);
-        this.textInputs[0].setValue(currency);
-        this.menuList[0].click();
-        this.textInputs[1].setValue(perDate);
-        this.perDate.click();
-        this.submitBtn.click();
+    async paymentDetails (rate, currency, perDate){
+        await (await this.rate).setValue(rate);
+        await (await this.textInputs)[0].setValue(currency);
+        await (await this.menuList)[0].click();
+        await (await this.textInputs)[1].setValue(perDate);
+        await (await this.perDate).click();
+        await (await this.submitBtn).click();
     }
 
-    defineDates (){
-        this.submitBtn.click();
+    async defineDates (){
+        await (await this.submitBtn).click();
     }
 
-    extras (clause){
-        this.clauseBtn[4].click();
-        this.clauseText.setValue(clause);
-        this.nxtBtn.click();
+    async extras (clause){
+        await (await this.clauseBtn)[4].click();
+        await (await this.clauseText).setValue(clause);
+        await (await this.nxtBtn).click();
     }
 
-    compliance (country, state){
-        this.textInputs[0].setValue(country);
-        this.menuList[0].click();
-        this.textInputs[1].setValue(state);
-        this.menuList[0].click();
-        this.nxtBtn.click();
+    async compliance (country, state){
+        await (await this.textInputs)[0].setValue(country);
+        await (await this.menuList)[0].click();
+        await (await this.textInputs)[1].setValue(state);
+        await (await this.menuList)[0].click();
+        await (await this.nxtBtn).click();
     }
 
-    contractCreatedSuccessfully (){
-        browser.waitUntil( () => {
-            return this.status.getText() === 'WAITING FOR CLIENT SIGN';
+    async contractCreatedSuccessfully (){
+        await browser.waitUntil( async () => {
+            return await (await this.status).getText() === 'WAITING FOR CLIENT SIGN';
         } )
-        expect(this.status).toExist();
+        await expect(await this.status).toExist();
     }
 
-    createFixedContract ({name, scope, rate, currency, perDate, clause, country, state}) {
-        this.generalInfo(name, scope);
-        this.paymentDetails(rate, currency, perDate);
-        this.defineDates();
-        this.extras(clause);
-        this.compliance(country, state);
-        this.contractCreatedSuccessfully();
+    async createFixedContract ({name, scope, rate, currency, perDate, clause, country, state}) {
+        await this.generalInfo(name, scope);
+        await this.paymentDetails(rate, currency, perDate);
+        await this.defineDates();
+        await this.extras(clause);
+        await this.compliance(country, state);
+        await this.contractCreatedSuccessfully();
     }
 
     open () {

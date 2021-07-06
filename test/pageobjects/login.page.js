@@ -6,10 +6,10 @@ class LoginPage extends Page {
     get inputPassword () { return $("input[name='password']") }
     get btnSubmit () { return $("button[type='submit']") }
 
-    login ({email, password}) {
-        this.inputUsername.setValue(email);
-        this.inputPassword.setValue(password);
-        this.btnSubmit.click();
+    async login ({email, password}) {
+        await (await this.inputUsername).setValue(email);
+        await (await this.inputPassword).setValue(password);
+        await (await this.btnSubmit).click();
     }
 
     open () {
